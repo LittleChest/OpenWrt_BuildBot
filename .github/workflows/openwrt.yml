@@ -33,17 +33,9 @@ jobs:
       working-directory: ./OpenWrt
       run: curl https://downloads.openwrt.org/releases/$VERSION/targets/$TARGET/$SUBTARGET/config.buildinfo -o .config
 
-    - name: Defconfig
-      working-directory: ./OpenWrt
-      run: TERM=dumb make olddefconfig
-
     - name: Download
       working-directory: ./OpenWrt
       run: make download
-
-    - name: Clean
-      working-directory: ./OpenWrt
-      run: make clean
 
     - name: Build
       working-directory: ./OpenWrt
