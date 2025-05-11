@@ -35,15 +35,15 @@ jobs:
 
     - name: Defconfig
       working-directory: ./OpenWrt
-      run: make -j1 olddefconfig
+      run: TERM=dumb make olddefconfig
 
     - name: Download
       working-directory: ./OpenWrt
-      run: make -j1 download
+      run: make download
 
     - name: Clean
       working-directory: ./OpenWrt
-      run: make -j1 clean
+      run: make clean
 
     - name: Build
       working-directory: ./OpenWrt
