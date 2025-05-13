@@ -33,9 +33,49 @@ jobs:
       working-directory: ./OpenWrt
       run: curl https://downloads.openwrt.org/releases/$VERSION/targets/$TARGET/$SUBTARGET/config.buildinfo -o .config
 
-    - name: Defconfig
+    - name: Add extra config
       working-directory: ./OpenWrt
-      run: make -j1 olddefconfig
+      run: |
+        cat <<EOF >> ./.config
+        # BuildBot
+
+        CONFIG_BUILDBOT=n
+        CONFIG_IB=n
+        CONFIG_SDK=n
+        CONFIG_SDK_LLVM_BPF=n
+
+        # Extra kernel config
+
+        CONFIG_DWARVES=y
+        CONFIG_KERNEL_ARM_PMU=y
+        CONFIG_KERNEL_ARM_PMUV3=y
+        CONFIG_KERNEL_BPF_EVENTS=y
+        CONFIG_KERNEL_DEBUG_INFO_BTF=y
+        CONFIG_KERNEL_DEBUG_INFO_BTF_MODULES=y
+        CONFIG_KERNEL_DEBUG_INFO_REDUCED=n
+        CONFIG_KERNEL_FTRACE=y
+        CONFIG_KERNEL_KPROBE_EVENTS=y
+        CONFIG_KERNEL_KPROBES=y
+        CONFIG_KERNEL_PERF_EVENTS=y
+        CONFIG_PACKAGE_kmod-xdp-sockets-diag=m
+        CONFIG_PACKAGE_kselftests-bpf=m
+        CONFIG_PACKAGE_libbfd=m
+        CONFIG_PACKAGE_libbz2=m
+        CONFIG_PACKAGE_libctf=m
+        CONFIG_PACKAGE_libdw=m
+        CONFIG_PACKAGE_libopcodes=m
+        CONFIG_PACKAGE_libtraceevent=m
+        CONFIG_PACKAGE_musl-fts=m
+        CONFIG_PACKAGE_objdump=m
+        CONFIG_PACKAGE_perf=m
+
+        # Redmi AX6S / Xiaomi AX3200
+
+        CONFIG_TARGET_ALL_PROFILES=n
+        CONFIG_TARGET_MULTI_PROFILE=n
+        CONFIG_TARGET_PER_DEVICE_ROOTFS=n
+        CONFIG_TARGET_mediatek_mt7622_DEVICE_xiaomi_redmi-router-ax6s=y
+        EOF
 
     - name: Download
       working-directory: ./OpenWrt
@@ -45,10 +85,10 @@ jobs:
       working-directory: ./OpenWrt
       run: make -j4 world
 
-    - name: Upload firmwares
+    - name: Upload firmware
       uses: actions/upload-artifact@v4
       with:
-        name: Firmwares
+        name: Firmware
         path: ./OpenWrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/*.*
         if-no-files-found: error
 
