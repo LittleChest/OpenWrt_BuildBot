@@ -36,6 +36,7 @@ jobs:
     - name: Add extra config
       working-directory: ./OpenWrt
       run: |
+        make oldconfig -j1
         cat <<EOF >> ./.config
         # BuildBot
 
