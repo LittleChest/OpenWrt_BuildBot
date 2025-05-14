@@ -1,5 +1,6 @@
 name: OpenWrt
 
+
 on:
   workflow_dispatch:
 
@@ -80,7 +81,8 @@ jobs:
 
     - name: Build
       working-directory: ./OpenWrt
-      run: make -j4
+      run: make -j4 V=s
+      
 
     - name: Upload firmware
       uses: actions/upload-artifact@v4
