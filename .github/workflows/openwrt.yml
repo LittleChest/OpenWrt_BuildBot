@@ -92,17 +92,16 @@ jobs:
         path: ./OpenWrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/packages/*.*
         if-no-files-found: error
 
-    - name: Upload packages to Cloudflare R2
-      uses: ryand56/r2-upload-action@latest
-      if: github.repository == 'LittleChest/OpenWrt_BuildBot'
+    - name: Purge Cloudflare R2
+      uses: wei/rclone@v1
+      env:
+        RCLONE_CONF: ${{ secrets.RCLONE_CONF }}
       with:
-        r2-account-id: ${{ secrets.R2_ACCOUNT_ID }}
-        r2-access-key-id: ${{ secrets.R2_ACCESS_KEY_ID }}
-        r2-secret-access-key: ${{ secrets.R2_SECRET_ACCESS_KEY }}
-        r2-bucket: ${{ secrets.R2_BUCKET }}
-        source-dir: ./OpenWrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/packages
-        output-file-url: false
-        multipart-size: 100
-        max-retries: 5
-        multipart-concurrent: true
-        keep-file-fresh: true
+        args: purge openwrt:openwrt --retries 1
+
+    - name: Upload to Cloudflare R2
+      uses: wei/rclone@v1
+      env:
+        RCLONE_CONF: ${{ secrets.RCLONE_CONF }}
+      with:
+        args: rclone copy ./OpenWrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/packages/ openwrt:openwrt
