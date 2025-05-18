@@ -82,7 +82,7 @@ jobs:
       run: make -j4 V=s
 
     - name: Remove kernel-debug
-      uses: rm -f ./OpenWrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/kernel-debug.tar.gz
+      run: rm -f ./OpenWrt/bin/targets/$TARGET/$SUBTARGET/kernel-debug.tar.gz
 
     - name: Upload firmware
       uses: actions/upload-artifact@v4
