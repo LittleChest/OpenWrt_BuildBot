@@ -33,9 +33,11 @@ jobs:
       run: |
         curl https://downloads.openwrt.org/releases/$VERSION/targets/$TARGET/$SUBTARGET/config.buildinfo -o .config
         cat <<EOF >> ./.config
+
         # Build Bot
 
         CONFIG_BUILDBOT=n
+        CONFIG_ALL_NONSHARED=n
         CONFIG_IB=n
         CONFIG_SDK=n
         CONFIG_SDK_LLVM_BPF=n
@@ -53,6 +55,7 @@ jobs:
         CONFIG_KERNEL_KPROBE_EVENTS=y
         CONFIG_KERNEL_KPROBES=y
         CONFIG_KERNEL_PERF_EVENTS=y
+        CONFIG_KERNEL_XDP_SOCKETS=y
         CONFIG_PACKAGE_kmod-xdp-sockets-diag=m
         CONFIG_PACKAGE_kselftests-bpf=m
         CONFIG_PACKAGE_libbfd=m
@@ -71,12 +74,15 @@ jobs:
         CONFIG_TARGET_MULTI_PROFILE=n
         CONFIG_TARGET_PER_DEVICE_ROOTFS=n
         CONFIG_TARGET_mediatek_mt7622_DEVICE_xiaomi_redmi-router-ax6s=y
+        CONFIG_TARGET_PROFILE="DEVICE_xiaomi_redmi-router-ax6s"
         EOF
-        make oldconfig -j1
 
     - name: Build
       working-directory: ./OpenWrt
       run: make -j4 V=s
+
+    - name: Remove kernel-debug
+      uses: rm -f ./OpenWrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/kernel-debug.tar.gz
 
     - name: Upload firmware
       uses: actions/upload-artifact@v4
