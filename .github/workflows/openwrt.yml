@@ -26,50 +26,9 @@ jobs:
         ./scripts/feeds install -a
         ./scripts/feeds update -a
 
-    - name: Get build config
+    - name: Download build config
       working-directory: ./OpenWrt
-      run: |
-        curl https://downloads.openwrt.org/releases/$VERSION/targets/$TARGET/$SUBTARGET/config.buildinfo -o .config
-        cat <<EOF >> ./.config
-        
-        # Build Bot
-        CONFIG_BUILDBOT=n
-        CONFIG_ALL_NONSHARED=n
-        CONFIG_IB=n
-        CONFIG_COLLECT_KERNEL_DEBUG=n
-        
-        # NSS
-        CONFIG_ATH11K_NSS_MESH_SUPPORT=y
-        CONFIG_ATH11K_NSS_MESH_SUPPORT=y
-        CONFIG_ATH11K_DEBUGFS_HTT_STATS=n
-        CONFIG_ATH11K_DEBUGFS_STA=n
-        CONFIG_PACKAGE_kmod-qca-mcs=y
-        CONFIG_PACKAGE_sqm-scripts-nss=y
-        CONFIG_FEED_nss_packages=n
-        CONFIG_FEED_sqm_scripts_nss=n
-        
-        # eBPF
-        CONFIG_KERNEL_DEBUG_INFO_REDUCED=n
-        CONFIG_KERNEL_PERF_EVENTS=y
-        CONFIG_KERNEL_FTRACE=y
-        CONFIG_KERNEL_KPROBES=y
-        CONFIG_KERNEL_BPF_EVENTS=y
-        CONFIG_KERNEL_DEBUG_INFO_BTF=y
-        
-        # XDP Sockets
-        CONFIG_KERNEL_XDP_SOCKETS=y
-        
-        # Redmi AX6
-        CONFIG_TARGET_MULTI_PROFILE=n
-        CONFIG_TARGET_qualcommax_ipq807x_DEVICE_redmi_ax6=y
-        
-        # Love
-        CONFIG_KERNEL_BUILD_USER="littlechest"
-        CONFIG_KERNEL_BUILD_DOMAIN="github-actions"
-        
-        EOF
-        make defconfig -j1
-        make oldconfig -j1
+      run: curl https://raw.githubusercontent.com/LittleChest/OpenWrt_BuildBot/refs/heads/25.12-nss/Redmi-AX6.config -o .config
 
     - name: Download
       working-directory: ./OpenWrt
