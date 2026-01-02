@@ -76,7 +76,7 @@ jobs:
 
     - name: Build
       working-directory: ./OpenWrt
-      run: make -j$(nproc --all)
+      run: make -j$(nproc --all) V=sc
 
     - name: Move Archives
       continue-on-error: true
