@@ -69,6 +69,7 @@ jobs:
         
         EOF
         make defconfig -j1
+        make oldconfig -j1
 
     - name: Download
       working-directory: ./OpenWrt
