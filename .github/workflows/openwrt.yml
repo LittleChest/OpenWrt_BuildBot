@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
     - name: Free Disk Space
-      uses: jlumbroso/free-disk-space@latest
+      uses: jlumbroso/free-disk-space@1
 
     - name: Setup Build Bot
       run: |
