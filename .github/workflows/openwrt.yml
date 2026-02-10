@@ -6,7 +6,7 @@ on:
 env:
   VERSION: 25.12.0-rc4
   REPO: LittleChest/OpenWrt-NSS
-  BRANCH: openwrt-25.12
+  BRANCH: main
   TARGET: qualcommax
   SUBTARGET: ipq807x
 
@@ -72,7 +72,7 @@ jobs:
         
         # Love
         CONFIG_KERNEL_BUILD_USER="littlechest"
-        CONFIG_KERNEL_BUILD_DOMAIN="github-actions"
+        CONFIG_KERNEL_BUILD_DOMAIN="buildbot"
         
         EOF
         make defconfig -j1
