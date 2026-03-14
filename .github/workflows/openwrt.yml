@@ -25,6 +25,11 @@ jobs:
     - name: Download OpenWrt
       run: git clone https://github.com/$REPO.git -b $BRANCH OpenWrt
 
+    - name: Download Custom packages
+      run: |
+        git clone https://github.com/jerrykuku/luci-theme-argon.git -b master package/luci-theme-argon
+        git clone https://github.com/jerrykuku/luci-app-argon-config.git -b master package/luci-app-argon-config
+
     - name: Update feeds
       working-directory: ./OpenWrt
       run: ./scripts/feeds update -a
@@ -69,6 +74,8 @@ jobs:
         CONFIG_PACKAGE_luci-app-https-dns-proxy=y
         CONFIG_PACKAGE_luci-app-upnp=y
         CONFIG_PACKAGE_luci-app-wol=y
+        CONFIG_PACKAGE_luci-theme-argon=y
+        CONFIG_PACKAGE_luci-app-argon-config=y
         
         # zh_Hans
         CONFIG_LUCI_LANG_zh_Hans=y
