@@ -4,9 +4,9 @@ on:
   workflow_dispatch:
 
 env:
-  VERSION: 25.12.0-rc4
+  VERSION: 25.12.0
   REPO: LittleChest/OpenWrt-NSS
-  BRANCH: openwrt-25.12
+  BRANCH: v25.12.0
   TARGET: qualcommax
   SUBTARGET: ipq807x
 
@@ -47,24 +47,12 @@ jobs:
         
         # NSS
         CONFIG_ATH11K_NSS_MESH_SUPPORT=y
-        CONFIG_ATH11K_NSS_MESH_SUPPORT=y
         CONFIG_ATH11K_DEBUGFS_HTT_STATS=n
         CONFIG_ATH11K_DEBUGFS_STA=n
         CONFIG_PACKAGE_kmod-qca-mcs=y
         CONFIG_PACKAGE_sqm-scripts-nss=y
         CONFIG_FEED_nss_packages=n
         CONFIG_FEED_sqm_scripts_nss=n
-        
-        # eBPF
-        CONFIG_KERNEL_DEBUG_INFO_REDUCED=n
-        CONFIG_KERNEL_PERF_EVENTS=y
-        CONFIG_KERNEL_FTRACE=y
-        CONFIG_KERNEL_KPROBES=y
-        CONFIG_KERNEL_BPF_EVENTS=y
-        CONFIG_KERNEL_DEBUG_INFO_BTF=y
-        
-        # XDP Sockets
-        CONFIG_KERNEL_XDP_SOCKETS=y
         
         # Redmi AX6
         CONFIG_TARGET_MULTI_PROFILE=n
@@ -73,6 +61,25 @@ jobs:
         # Love
         CONFIG_KERNEL_BUILD_USER="littlechest"
         CONFIG_KERNEL_BUILD_DOMAIN="github-actions"
+        
+        # Custom packages
+        CONFIG_PACKAGE_ddns-scripts-cloudflare=y
+        CONFIG_PACKAGE_luci-proto-wireguard=y
+        CONFIG_PACKAGE_luci-app-ddns=y
+        CONFIG_PACKAGE_luci-app-https-dns-proxy=y
+        CONFIG_PACKAGE_luci-app-upnp=y
+        CONFIG_PACKAGE_luci-app-wol=y
+        
+        # zh_Hans
+        CONFIG_LUCI_LANG_zh_Hans=y
+        CONFIG_PACKAGE_luci-i18n-attendedsysupgrade-zh-cn=y
+        CONFIG_PACKAGE_luci-i18n-base-zh-cn=y
+        CONFIG_PACKAGE_luci-i18n-ddns-zh-cn=y
+        CONFIG_PACKAGE_luci-i18n-firewall-zh-cn=y
+        CONFIG_PACKAGE_luci-i18n-https-dns-proxy-zh-cn=y
+        CONFIG_PACKAGE_luci-i18n-package-manager-zh-cn=y
+        CONFIG_PACKAGE_luci-i18n-upnp-zh-cn=y
+        CONFIG_PACKAGE_luci-i18n-wol-zh-cn=y
         
         EOF
         make defconfig -j1
