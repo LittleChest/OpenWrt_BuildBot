@@ -4,9 +4,9 @@ on:
   workflow_dispatch:
 
 env:
-  VERSION: 25.12.0
-  REPO: LittleChest/OpenWrt-NSS
-  BRANCH: v25.12.0
+  VERSION: 25.12.4
+  REPO: openwrt-ipq
+  BRANCH: 25.12-nss
   TARGET: qualcommax
   SUBTARGET: ipq807x
 
@@ -25,11 +25,6 @@ jobs:
     - name: Download OpenWrt
       run: git clone https://github.com/$REPO.git -b $BRANCH OpenWrt
 
-    - name: Download Custom packages
-      run: |
-        git clone https://github.com/jerrykuku/luci-theme-argon.git -b master package/luci-theme-argon
-        git clone https://github.com/jerrykuku/luci-app-argon-config.git -b master package/luci-app-argon-config
-
     - name: Update feeds
       working-directory: ./OpenWrt
       run: ./scripts/feeds update -a
@@ -37,6 +32,11 @@ jobs:
     - name: Install feeds
       working-directory: ./OpenWrt
       run: ./scripts/feeds install -a
+
+    - name: Download Custom packages
+      run: |
+        git clone https://github.com/jerrykuku/luci-theme-argon.git -b master package/luci-theme-argon
+        git clone https://github.com/jerrykuku/luci-app-argon-config.git -b master package/luci-app-argon-config
 
     - name: Get build config
       working-directory: ./OpenWrt
