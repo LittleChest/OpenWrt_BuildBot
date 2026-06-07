@@ -5,7 +5,7 @@ on:
 
 env:
   VERSION: 25.12.4
-  REPO: openwrt-ipq
+  REPO: qosmio/openwrt-ipq
   BRANCH: 25.12-nss
   TARGET: qualcommax
   SUBTARGET: ipq807x
