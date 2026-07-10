@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 env:
-  VERSION: 25.12.4
+  VERSION: 25.12.5
   REPO: qosmio/openwrt-ipq
   BRANCH: 25.12-nss
   TARGET: qualcommax
