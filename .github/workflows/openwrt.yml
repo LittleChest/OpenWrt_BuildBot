@@ -34,6 +34,7 @@ jobs:
       run: ./scripts/feeds install -a
 
     - name: Download Custom packages
+      working-directory: ./OpenWrt
       run: |
         git clone https://github.com/jerrykuku/luci-theme-argon.git -b master package/luci-theme-argon
         git clone https://github.com/jerrykuku/luci-app-argon-config.git -b master package/luci-app-argon-config
